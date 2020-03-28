@@ -1,0 +1,33 @@
+version: "3.1"
+services:
+    mysql:
+        image: mysql:5.7
+        container_name: mdshop-api-mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        ports:
+            - 3306:3306
+
+    webserver:
+        build:
+            context: .
+            dockerfile: docker/ci/nginx/Dockerfile
+        container_name: mdshop-api-webserver
+        ports:
+            - 8082:80
+
+    php-fpm:
+        image: ksardas/mdshop-api:latest
+        container_name: mdshop-api-php-fpm
+        volumes:
+            - ./public/uploads:/application/public/uploads
+        environment:
+            - APP_ENV=prod
+            - APP_SECRET=${APP_SECRET}
+            - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}
+            - MAILER_URL=${MAILER_URL}
+            - MAILER_SENDER=${MAILER_SENDER}
+            - MAILER_RECIPIENT=${MAILER_RECIPIENT}

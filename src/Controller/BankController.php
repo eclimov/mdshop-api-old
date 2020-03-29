@@ -10,7 +10,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 /**
  * @Route(path="/bank")
@@ -53,16 +52,12 @@ class BankController { // https://symfony.com/doc/current/bundles/SensioFramewor
 
     /**
      * @Route(methods={"POST"})
-     * @ParamConverter("bankData", converter="fos_rest.request_body", options={"validator"={"groups"={"create"}}}))
+     * @ParamConverter("bankData", converter="fos_rest.request_body")
      * @param BankData $bankData
      * @return Response
      */
-    public function create(BankData $bankData, ConstraintViolationListInterface $validationErrors): Response
+    public function create(BankData $bankData): Response
     {
-        if (count($validationErrors) > 0) {
-            dump($validationErrors);
-        }
-
         dump($bankData);
         die;
 

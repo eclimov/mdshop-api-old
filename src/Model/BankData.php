@@ -3,16 +3,19 @@
 namespace App\Model;
 
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class BankData {
     /**
      * @var int
+     * @Assert\NotBlank(groups={"get"})
      * @Groups({"get"})
      */
     public int $id;
 
     /**
      * @var string
+     * @Assert\NotBlank(groups={"create", "get"})
      * @Groups({"create", "get"})
      */
     public string $name;

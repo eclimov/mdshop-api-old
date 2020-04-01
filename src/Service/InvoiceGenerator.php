@@ -4,8 +4,8 @@ namespace App\Service;
 
 use App\Entity\CompanyAddress;
 use App\Entity\Invoice;
+use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Writer\Exception;
-use Symfony\Bridge\Doctrine\ManagerRegistry;
 use function count;
 
 class InvoiceGenerator
@@ -13,12 +13,12 @@ class InvoiceGenerator
     /**
      * @var string
      */
-    private $targetDirectory;
+    private string $targetDirectory;
 
     /**
      * @var XlsProcessor
      */
-    private $xlsProcessor;
+    private XlsProcessor $xlsProcessor;
 
     /**
      * @param string $targetDirectory
@@ -32,12 +32,13 @@ class InvoiceGenerator
 
     /**
      * @param Invoice $invoice
-     * @param ManagerRegistry $doctrine
+     * @param EntityManagerInterface $doctrine
      * @return string
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
      */
-    public function generate(Invoice $invoice, ManagerRegistry $doctrine): string
+    public function generate(Invoice $invoice, EntityManagerInterface $doctrine): string
     {
         $spreadsheet = $this->getXlsProcessor()
             ->getSpreadSheet($this->getInvoiceDirectory() . '/' . 'template.xlsx');

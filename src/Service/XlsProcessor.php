@@ -2,10 +2,10 @@
 
 namespace App\Service;
 
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use PhpOffice\PhpSpreadsheet\Reader;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer;
+use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use Symfony\Component\Filesystem\Filesystem;
 
 class XlsProcessor
@@ -13,11 +13,11 @@ class XlsProcessor
     /**
      * @param String $path
      * @return Spreadsheet
-     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws Reader\Exception
      */
     public function getSpreadSheet(String $path): Spreadsheet
     {
-        $spreadsheet = new Reader\Xls();
+        $spreadsheet = new Reader\Xlsx();
         return $spreadsheet->load($path);
     }
 
@@ -39,10 +39,10 @@ class XlsProcessor
     {
         $fileSystem = new Filesystem();
         if (!$fileSystem->exists($path )) {
-            $fileSystem->mkdir($path );  //  0777 permissions by default
+            $fileSystem->mkdir($path);  //  0777 permissions by default
         }
 
-        $writer = new Writer\Xls($spreadsheet);
+        $writer = new Writer\Xlsx($spreadsheet);
         $writer->save($path  . '/' . $fileName);
     }
 }

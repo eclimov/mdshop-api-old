@@ -1,0 +1,43 @@
+version: 2
+jobs:
+  build:
+    working_directory: /dockerapp
+    docker:
+      - image: docker:18.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --no-cache py-pip=9.0.1-r1
+            pip install docker-compose==1.19.0
+      - run:
+          name: Build containers and push application to Docker Hub
+          command: |
+            docker-compose -f docker-compose.ci.yml up -d --build --force-recreate
+            docker-compose -f docker-compose.ci.yml ps
+            docker commit mdshop-api-php-fpm ksardas/mdshop-api:$CIRCLE_SHA1
+            docker commit mdshop-api-php-fpm ksardas/mdshop-api:latest
+            docker images
+            docker login -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+            docker push $DOCKER_HUB_USER_ID/mdshop-api:$CIRCLE_SHA1
+            docker push $DOCKER_HUB_USER_ID/mdshop-api:latest
+      - deploy:
+          name: Deploy application to Digital Ocean
+          #Use 'docker-compose logs -f -t' to attach yourself to the logs of all running services
+          command: |
+            ssh -o "StrictHostKeyChecking no" $DEPLOY_USER@$DEPLOY_HOST bash -c "
+                cd /root/opt/mdshop-api
+                git reset --hard
+                git pull
+                docker-compose -f docker-compose.prod.yml up -d webserver
+                docker-compose up -d mysql
+                docker-compose -f docker-compose.prod.yml pull php-fpm
+                docker-compose -f docker-compose.prod.yml up -d --build --force-recreate php-fpm
+                docker-compose exec -T php-fpm bin/console doctrine:migrations:migrate -n
+                docker container prune -f
+                docker image prune -f
+                docker network prune -f
+                docker volume prune -f"

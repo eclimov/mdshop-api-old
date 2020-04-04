@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\BankAffiliateRepository")
  * @ORM\Table(name="bank_affiliates")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(

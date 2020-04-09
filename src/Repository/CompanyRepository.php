@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Company;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -38,22 +37,5 @@ class CompanyRepository extends ServiceEntityRepository
             ->orderBy('c.createdAt')
             ->getQuery()
             ->getResult();
-    }
-
-    /**
-     * @param User $user
-     * @return Company[]
-     */
-    public function findVisibleToUserOrderByName(User $user): array
-    {
-        if ($user->getRole() !== 'ROLE_ADMIN') {
-            return $this->findVisibleOrderByName();
-        }
-
-        return $this->createQueryBuilder('c')
-            ->addOrderBy('c.name')
-            ->getQuery()
-            ->getResult()
-            ;
     }
 }

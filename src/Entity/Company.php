@@ -64,12 +64,6 @@ class Company {
     private $employees;
 
     /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company")
-     */
-    private $users;
-
-    /**
      * @var BankAffiliate
      * @ORM\ManyToOne(targetEntity="App\Entity\BankAffiliate", inversedBy="companies")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
@@ -110,19 +104,6 @@ class Company {
     {
         if(!$this->employees->contains($this->employees)) {
             $this->employees->add($employee);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param User $user
-     * @return Company
-     */
-    public function addUser(User $user): Company
-    {
-        if(!$this->users->contains($user)) {
-            $this->users->add($user);
         }
 
         return $this;
@@ -220,14 +201,6 @@ class Company {
     public function getEmployees(): Collection
     {
         return $this->employees;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
     }
 
     /**

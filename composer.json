@@ -5,6 +5,7 @@
         "php": "^7.4.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/doctrine-migrations-bundle": "^2.1",
         "friendsofsymfony/rest-bundle": "dev-master",
         "phpoffice/phpspreadsheet": "^1.11",
         "sensio/framework-extra-bundle": "^5.5",

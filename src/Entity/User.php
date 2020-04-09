@@ -5,14 +5,11 @@ namespace App\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Serializable;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use function in_array;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @UniqueEntity(fields="email", message="Email already taken")
- * @UniqueEntity(fields="username", message="Username already taken")
  * @ORM\Table(name="users")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -154,12 +151,12 @@ class User implements UserInterface, Serializable
     /** @see \Serializable::unserialize() */
     public function unserialize($serialized)
     {
-        list (
+        [
             $this->id,
             $this->username,
             $this->password,
             $this->isActive,
-            ) = unserialize($serialized, array('allowed_classes' => false));
+            ] = unserialize($serialized, array('allowed_classes' => false));
     }
 
     /**

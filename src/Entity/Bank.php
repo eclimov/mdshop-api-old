@@ -6,17 +6,11 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity()
  * @ORM\Table(name="banks")
  * @ORM\HasLifecycleCallbacks()
- * @UniqueEntity(
- *     fields={"name"},
- *     errorPath="name",
- *     message="This bank already exists in DB"
- * )
  */
 class Bank
 {
@@ -30,7 +24,7 @@ class Bank
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 

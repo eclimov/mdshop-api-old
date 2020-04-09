@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Entity\Bank;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,5 +41,17 @@ class BankData {
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * @param Bank $bank
+     * @return BankData
+     */
+    public function fill(Bank $bank): BankData
+    {
+        return $this
+            ->setId($bank->getId())
+            ->setName($bank->getName())
+            ;
     }
 }

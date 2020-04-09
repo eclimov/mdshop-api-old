@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Converter\BankConverter;
-use App\Converter\BankDataConverter;
 use App\Entity\Bank;
 use App\Model\BankData;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,16 +18,15 @@ class BankController
 { // https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html#doctrineconverter-options
     /**
      * @Route(methods={"GET"})
-     * @param BankDataConverter $bankDataConverter
      * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function get(BankDataConverter $bankDataConverter, EntityManagerInterface $em): Response
+    public function get(EntityManagerInterface $em): Response
     {
         $banks = $em->getRepository(Bank::class)->findAll();
         $bankDatas = array_map(
-            static function (Bank $bank) use ($bankDataConverter) {
-                return $bankDataConverter->convert($bank);
+            static function (Bank $bank) {
+                return (new BankData())->fill($bank);
             },
             $banks
         );
@@ -42,13 +39,12 @@ class BankController
     /**
      * @Route(path="/{id}", requirements={"id" = "\d+"}, methods={"GET"})
      * @param Bank $bank
-     * @param BankDataConverter $bankDataConverter
      * @return Response
      */
-    public function find(Bank $bank, BankDataConverter $bankDataConverter): Response
+    public function find(Bank $bank): Response
     {
         return new JsonResponse(
-            $bankDataConverter->convert($bank),
+            (new BankData())->fill($bank),
             Response::HTTP_OK
         );
     }
@@ -59,10 +55,9 @@ class BankController
      * @param BankData $bankData
      * @param ConstraintViolationListInterface $validationErrors
      * @param EntityManagerInterface $em
-     * @param BankConverter $bankConverter
      * @return Response
      */
-    public function create(BankData $bankData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em, BankConverter $bankConverter): Response
+    public function create(BankData $bankData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em): Response
     {
         if (count($validationErrors) > 0) {
             return new JsonResponse(
@@ -74,13 +69,12 @@ class BankController
             );
         }
 
-        $bank = $bankConverter->convert($bankData);
+        $bank = (new Bank())->fill($bankData);
         $em->persist($bank);
         $em->flush();
-        $bankData->setId($bank->getId());
 
         return new JsonResponse(
-            $bankData,
+            $bankData->fill($bank),
             Response::HTTP_CREATED
         );
     }
@@ -92,10 +86,9 @@ class BankController
      * @param BankData $bankData
      * @param ConstraintViolationListInterface $validationErrors
      * @param EntityManagerInterface $em
-     * @param BankDataConverter $bankDataConverter
      * @return Response
      */
-    public function update(Bank $bank, BankData $bankData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em, BankDataConverter $bankDataConverter): Response
+    public function update(Bank $bank, BankData $bankData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em): Response
     {
         if (count($validationErrors) > 0) {
             return new JsonResponse(
@@ -107,11 +100,11 @@ class BankController
             );
         }
 
-        $bank->setName($bankData->name);
+        $bank->fill($bankData);
         $em->flush();
 
         return new JsonResponse(
-            $bankDataConverter->convert($bank),
+            $bankData->fill($bank),
             Response::HTTP_OK
         );
     }

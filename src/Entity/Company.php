@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 
+use App\Model\CompanyData;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -344,5 +345,20 @@ class Company {
     public function prePersist(): void
     {
         $this->createdAt = new DateTime();
+    }
+
+    /**
+     * @param CompanyData $companyData
+     * @return Company
+     */
+    public function fill(CompanyData $companyData): Company
+    {
+        return $this
+            ->setName($companyData->name)
+            ->setShortName($companyData->shortName)
+            ->setFiscalCode($companyData->fiscalCode)
+            ->setIban($companyData->iban)
+            ->setVat($companyData->vat)
+            ;
     }
 }

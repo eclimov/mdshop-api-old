@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\BankAffiliateData;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -154,5 +155,16 @@ class BankAffiliate
     public function prePersist(): void
     {
         $this->createdAt = new DateTime();
+    }
+
+    /**
+     * @param BankAffiliateData $bankAffiliateData
+     * @return BankAffiliate
+     */
+    public function fill(BankAffiliateData $bankAffiliateData): BankAffiliate
+    {
+        return $this
+            ->setAffiliateNumber($bankAffiliateData->affiliateNumber)
+            ;
     }
 }

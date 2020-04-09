@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Converter\CompanyConverter;
-use App\Converter\CompanyDataConverter;
 use App\Entity\Company;
 use App\Model\CompanyData;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,17 +18,16 @@ class CompanyController
 {
     /**
      * @Route(methods={"GET"})
-     * @param CompanyDataConverter $companyDataConverter
      * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function get(CompanyDataConverter $companyDataConverter, EntityManagerInterface $em): Response
+    public function get(EntityManagerInterface $em): Response
     {
         // TODO: use 'findVisibleToUserOrderByName' repository method here, when security is implemented
         $companies = $em->getRepository(Company::class)->findAll();
         $companyDatas = array_map(
-            static function (Company $company) use ($companyDataConverter) {
-                return $companyDataConverter->convert($company);
+            static function (Company $company) {
+                return (new CompanyData())->fill($company);
             },
             $companies
         );
@@ -43,14 +40,13 @@ class CompanyController
     /**
      * @Route(path="/{id}", requirements={"id" = "\d+"}, methods={"GET"})
      * @param Company $company
-     * @param CompanyDataConverter $companyDataConverter
      * @return Response
      */
-    public function find(Company $company, CompanyDataConverter $companyDataConverter): Response
+    public function find(Company $company): Response
     {
         // TODO: use 'findVisibleToUserById' repository method here, when security is implemented
         return new JsonResponse(
-            $companyDataConverter->convert($company),
+            (new CompanyData())->fill($company),
             Response::HTTP_OK
         );
     }
@@ -61,10 +57,9 @@ class CompanyController
      * @param CompanyData $companyData
      * @param ConstraintViolationListInterface $validationErrors
      * @param EntityManagerInterface $em
-     * @param CompanyConverter $companyConverter
      * @return Response
      */
-    public function create(CompanyData $companyData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em, CompanyConverter $companyConverter): Response
+    public function create(CompanyData $companyData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em): Response
     {
         if (count($validationErrors) > 0) {
             return new JsonResponse(
@@ -76,13 +71,12 @@ class CompanyController
             );
         }
 
-        $company = $companyConverter->convert($companyData);
+        $company = (new Company())->fill($companyData);
         $em->persist($company);
         $em->flush();
-        $companyData->setId($company->getId());
 
         return new JsonResponse(
-            $companyData,
+            $companyData->fill($company),
             Response::HTTP_CREATED
         );
     }
@@ -94,10 +88,9 @@ class CompanyController
      * @param CompanyData $companyData
      * @param ConstraintViolationListInterface $validationErrors
      * @param EntityManagerInterface $em
-     * @param CompanyDataConverter $companyDataConverter
      * @return Response
      */
-    public function update(Company $company, CompanyData $companyData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em, CompanyDataConverter $companyDataConverter): Response
+    public function update(Company $company, CompanyData $companyData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em): Response
     {
         if (count($validationErrors) > 0) {
             return new JsonResponse(
@@ -109,18 +102,11 @@ class CompanyController
             );
         }
 
-        // TODO: update converter so it could update existing entities (if provided)
-        $company
-            ->setName($companyData->name)
-            ->setShortName($companyData->shortName)
-            ->setFiscalCode($companyData->fiscalCode)
-            ->setIban($companyData->iban)
-            ->setVat($companyData->vat)
-            ;
+        $company->fill($companyData);
         $em->flush();
 
         return new JsonResponse(
-            $companyDataConverter->convert($company),
+            $companyData->fill($company),
             Response::HTTP_OK
         );
     }

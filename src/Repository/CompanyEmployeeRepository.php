@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\Company;
 use App\Entity\CompanyEmployee;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\QueryBuilder;
 
 class CompanyEmployeeRepository extends ServiceEntityRepository
 {

@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Entity\Company;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -112,5 +113,21 @@ class CompanyData {
         $this->vat = $vat;
 
         return $this;
+    }
+
+    /**
+     * @param Company $company
+     * @return CompanyData
+     */
+    public function fill(Company $company): CompanyData
+    {
+        return $this
+            ->setId($company->getId())
+            ->setName($company->getName())
+            ->setShortName($company->getShortName())
+            ->setFiscalCode($company->getFiscalCode())
+            ->setIban($company->getIban())
+            ->setVat($company->getVat())
+            ;
     }
 }

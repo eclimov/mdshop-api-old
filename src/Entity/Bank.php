@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\BankData;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -128,5 +129,16 @@ class Bank
     public function prePersist(): void
     {
         $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * @param BankData $bankData
+     * @return Bank
+     */
+    public function fill(BankData $bankData): Bank
+    {
+        return $this
+            ->setName($bankData->name)
+            ;
     }
 }

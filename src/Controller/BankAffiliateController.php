@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Converter\BankAffiliateConverter;
-use App\Converter\BankAffiliateDataConverter;
 use App\Entity\Bank;
 use App\Entity\BankAffiliate;
 use App\Model\BankAffiliateData;
@@ -24,17 +22,16 @@ class BankAffiliateController {
     /**
      * @Route(methods={"GET"})
      * @param Bank $bank
-     * @param BankAffiliateDataConverter $bankAffiliateDataConverter
      * @param EntityManagerInterface $em
      * @return JsonResponse
      */
-    public function get(Bank $bank, BankAffiliateDataConverter $bankAffiliateDataConverter, EntityManagerInterface $em): Response
+    public function get(Bank $bank, EntityManagerInterface $em): Response
     {
         $bankAffiliates = $em->getRepository(BankAffiliate::class)
             ->findBy(['bank' => $bank]);
         $bankAffiliateDatas = array_map(
-            static function (BankAffiliate $bankAffiliate) use ($bankAffiliateDataConverter) {
-                return $bankAffiliateDataConverter->convert($bankAffiliate);
+            static function (BankAffiliate $bankAffiliate) {
+                return (new BankAffiliateData())->fill($bankAffiliate);
             },
             $bankAffiliates
         );
@@ -47,13 +44,12 @@ class BankAffiliateController {
     /**
      * @Route(path="/{id}", requirements={"id" = "\d+"}, methods={"GET"})
      * @param BankAffiliate $bankAffiliate
-     * @param BankAffiliateDataConverter $bankAffiliateDataConverter
      * @return Response
      */
-    public function find(BankAffiliate $bankAffiliate, BankAffiliateDataConverter $bankAffiliateDataConverter): Response
+    public function find(BankAffiliate $bankAffiliate): Response
     {
         return new JsonResponse(
-            $bankAffiliateDataConverter->convert($bankAffiliate),
+            (new BankAffiliateData())->fill($bankAffiliate),
             Response::HTTP_OK
         );
     }
@@ -65,10 +61,9 @@ class BankAffiliateController {
      * @param BankAffiliateData $bankAffiliateData
      * @param ConstraintViolationListInterface $validationErrors
      * @param EntityManagerInterface $em
-     * @param BankAffiliateConverter $bankAffiliateConverter
      * @return Response
      */
-    public function create(Bank $bank, BankAffiliateData $bankAffiliateData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em, BankAffiliateConverter $bankAffiliateConverter): Response
+    public function create(Bank $bank, BankAffiliateData $bankAffiliateData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em): Response
     {
         if (count($validationErrors) > 0) {
             return new JsonResponse(
@@ -80,14 +75,15 @@ class BankAffiliateController {
             );
         }
 
-        $bankAffiliate = $bankAffiliateConverter->convert($bankAffiliateData);
-        $bankAffiliate->setBank($bank);
+        $bankAffiliate = (new BankAffiliate())
+            ->fill($bankAffiliateData)
+            ->setBank($bank)
+        ;
         $em->persist($bankAffiliate);
         $em->flush();
-        $bankAffiliateData->setId($bankAffiliate->getId());
 
         return new JsonResponse(
-            $bankAffiliateData,
+            $bankAffiliateData->fill($bankAffiliate),
             Response::HTTP_CREATED
         );
     }
@@ -99,10 +95,9 @@ class BankAffiliateController {
      * @param BankAffiliateData $bankAffiliateData
      * @param ConstraintViolationListInterface $validationErrors
      * @param EntityManagerInterface $em
-     * @param BankAffiliateDataConverter $bankAffiliateDataConverter
      * @return Response
      */
-    public function update(BankAffiliate $bankAffiliate, BankAffiliateData $bankAffiliateData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em, BankAffiliateDataConverter $bankAffiliateDataConverter): Response
+    public function update(BankAffiliate $bankAffiliate, BankAffiliateData $bankAffiliateData, ConstraintViolationListInterface $validationErrors, EntityManagerInterface $em): Response
     {
         if (count($validationErrors) > 0) {
             return new JsonResponse(
@@ -114,11 +109,11 @@ class BankAffiliateController {
             );
         }
 
-        $bankAffiliate->setAffiliateNumber($bankAffiliateData->affiliateNumber);
+        $bankAffiliate->fill($bankAffiliateData);
         $em->flush();
 
         return new JsonResponse(
-            $bankAffiliateDataConverter->convert($bankAffiliate),
+            (new BankAffiliateData())->fill($bankAffiliate),
             Response::HTTP_OK
         );
     }

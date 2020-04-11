@@ -5,28 +5,39 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserFixtures extends Fixture
 {
     // 'bin/console security:encode-password' to get encoded hardcode
+
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
 
     /**
      * @param ObjectManager $manager
      */
     public function load(ObjectManager $manager): void
     {
-        $user1 = new User('t1@mail.com');
-        $user1->setPassword('$2y$13$XhNHSB38287Bg37xnNHT0ubkEyFDpo2Eu/a1dN7EgG2X.ZOoWVn.a');  // 11
-        $user1->setRoles([User::ROLE_ADMIN]);
-        $manager->persist($user1);
-        $this->addReference('user_1', $user1);
+        $roles = [
+            User::ROLE_ADMIN,
+            User::ROLE_SUPER_USER,
+            User::ROLE_USER,
+        ];
 
-        $user2 = new User('t2@mail.com');
-        $user2->setRoles([User::ROLE_USER]);
-        $user2->setPassword('$2y$13$NV5hu.XBefam/VsV2doD8uZdZC2KlLslhX9Jbtunu4E9pRIHltDJO'); // 12
-        $manager->persist($user2);
-        $this->addReference('user_2', $user2);
+        for ($i = 0; $i < 3; $i++) {
+            $userNumber = $i + 1;
 
+            $user = new User('t' . $userNumber . '@mail.com');
+            $user->setRoles([$roles[$i]]);
+            $user->setPassword($this->passwordEncoder->encodePassword($user, '1' . $userNumber));
+            $manager->persist($user);
+            $this->addReference('user_' . $userNumber, $user);
+        }
         $manager->flush();
     }
 }

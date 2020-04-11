@@ -5,6 +5,7 @@
         "php": "^7.4.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "doctrine/doctrine-migrations-bundle": "^2.1",
         "friendsofsymfony/rest-bundle": "dev-master",
         "lexik/jwt-authentication-bundle": "^2.6",
@@ -20,8 +21,7 @@
         "symfony/security-bundle": "5.0.*",
         "symfony/serializer": "5.0.*",
         "symfony/validator": "5.0.*",
-        "symfony/yaml": "5.0.*",
-        "ext-json": "*"
+        "symfony/yaml": "5.0.*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.3",

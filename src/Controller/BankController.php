@@ -15,7 +15,10 @@ use Symfony\Component\Validator\ConstraintViolationListInterface;
  * @Route(path="/bank")
  */
 class BankController
-{ // https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html#doctrineconverter-options
+{
+    // https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html#doctrineconverter-options
+    // TODO: set up flexible access control with Voters: https://symfony.com/doc/current/security/voters.html
+
     /**
      * @Route(methods={"GET"})
      * @param EntityManagerInterface $em

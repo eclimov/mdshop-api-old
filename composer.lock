@@ -4,8 +4,75 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13e6462cb5e11724e14c0111a090ce89",
+    "content-hash": "add8b545942b60655711c497d3209669",
     "packages": [
+        {
+            "name": "anyx/login-gate-bundle",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/anyx/LoginGateBundle.git",
+                "reference": "56c88af6bd19faede4fcb87204925864acf0a2b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/anyx/LoginGateBundle/zipball/56c88af6bd19faede4fcb87204925864acf0a2b3",
+                "reference": "56c88af6bd19faede4fcb87204925864acf0a2b3",
+                "shasum": ""
+            },
+            "require": {
+                "staffim/rest-client": "^2.0",
+                "symfony/config": "^3.3|^4.0|^5.0",
+                "symfony/dependency-injection": "^3.3|^4.0|^5.0",
+                "symfony/security-bundle": "^3.3|^4.0|^5.0"
+            },
+            "require-dev": {
+                "doctrine/doctrine-fixtures-bundle": "^3.3",
+                "doctrine/mongodb-odm": "~2.0",
+                "doctrine/mongodb-odm-bundle": "~4.0",
+                "escapestudios/symfony2-coding-standard": "3.x-dev",
+                "ext-ctype": "*",
+                "ext-iconv": "*",
+                "friendsofphp/php-cs-fixer": "^2.11",
+                "php": "^7.2.5",
+                "phpmd/phpmd": "@stable",
+                "phpunit/phpunit": "^8.5",
+                "symfony/browser-kit": "^5.0",
+                "symfony/dotenv": "5.0.*",
+                "symfony/flex": "^1.3.1",
+                "symfony/framework-bundle": "5.0.*",
+                "symfony/monolog-bundle": "^3.5",
+                "symfony/orm-pack": "^1.0",
+                "symfony/security-bundle": "5.0.*",
+                "symfony/twig-pack": "^1.0",
+                "symfony/yaml": "5.0.*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Anyx\\LoginGateBundle\\": "",
+                    "OrmApp\\": "Tests\\OrmApp\\src",
+                    "MongoApp\\": "Tests\\MongoApp\\src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aleksandr Klimenkov",
+                    "email": "alx.devel@gmail.com"
+                }
+            ],
+            "description": "Checking brute force attacks on site",
+            "homepage": "https://github.com/anyx/LoginGateBundle",
+            "keywords": [
+                "brute-force",
+                "security"
+            ],
+            "time": "2020-03-08T19:33:16+00:00"
+        },
         {
             "name": "doctrine/annotations",
             "version": "1.10.1",
@@ -940,6 +1007,64 @@
                 "static"
             ],
             "time": "2020-03-27T11:06:43+00:00"
+        },
+        {
+            "name": "egulias/email-validator",
+            "version": "2.1.17",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egulias/EmailValidator.git",
+                "reference": "ade6887fd9bd74177769645ab5c474824f8a418a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/ade6887fd9bd74177769645ab5c474824f8a418a",
+                "reference": "ade6887fd9bd74177769645ab5c474824f8a418a",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/lexer": "^1.0.1",
+                "php": ">=5.5",
+                "symfony/polyfill-intl-idn": "^1.10"
+            },
+            "require-dev": {
+                "dominicsayers/isemail": "^3.0.7",
+                "phpunit/phpunit": "^4.8.36|^7.5.15",
+                "satooshi/php-coveralls": "^1.0.1"
+            },
+            "suggest": {
+                "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Egulias\\EmailValidator\\": "EmailValidator"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eduardo Gulias Davis"
+                }
+            ],
+            "description": "A library for validating emails against several RFCs",
+            "homepage": "https://github.com/egulias/EmailValidator",
+            "keywords": [
+                "email",
+                "emailvalidation",
+                "emailvalidator",
+                "validation",
+                "validator"
+            ],
+            "time": "2020-02-13T22:36:52+00:00"
         },
         {
             "name": "friendsofsymfony/rest-bundle",
@@ -2269,6 +2394,111 @@
                 "controllers"
             ],
             "time": "2020-04-06T12:20:39+00:00"
+        },
+        {
+            "name": "staffim/rest-client",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staffim/rest-client.git",
+                "reference": "de0b157c363b93ad9e6414c897ce18623cac56ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staffim/rest-client/zipball/de0b157c363b93ad9e6414c897ce18623cac56ae",
+                "reference": "de0b157c363b93ad9e6414c897ce18623cac56ae",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.1",
+                "symfony/framework-bundle": "~3.4|~4.0|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Staffim\\RestClient\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vyacheslav Salakhutdinov",
+                    "email": "megazoll@gmail.com"
+                }
+            ],
+            "keywords": [
+                "client",
+                "rest",
+                "symfony",
+                "test"
+            ],
+            "time": "2020-02-28T21:58:00+00:00"
+        },
+        {
+            "name": "swiftmailer/swiftmailer",
+            "version": "v6.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "149cfdf118b169f7840bbe3ef0d4bc795d1780c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/149cfdf118b169f7840bbe3ef0d4bc795d1780c9",
+                "reference": "149cfdf118b169f7840bbe3ef0d4bc795d1780c9",
+                "shasum": ""
+            },
+            "require": {
+                "egulias/email-validator": "~2.0",
+                "php": ">=7.0.0",
+                "symfony/polyfill-iconv": "^1.0",
+                "symfony/polyfill-intl-idn": "^1.10",
+                "symfony/polyfill-mbstring": "^1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1",
+                "symfony/phpunit-bridge": "^3.4.19|^4.1.8"
+            },
+            "suggest": {
+                "ext-intl": "Needed to support internationalized email addresses",
+                "true/punycode": "Needed to support internationalized email addresses, if ext-intl is not installed"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.2-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Corbyn"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "https://swiftmailer.symfony.com",
+            "keywords": [
+                "email",
+                "mail",
+                "mailer"
+            ],
+            "time": "2019-11-12T09:31:26+00:00"
         },
         {
             "name": "symfony/cache",
@@ -5005,6 +5235,71 @@
                 }
             ],
             "time": "2020-03-27T16:56:45+00:00"
+        },
+        {
+            "name": "symfony/swiftmailer-bundle",
+            "version": "v3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/swiftmailer-bundle.git",
+                "reference": "553d2474288349faed873da8ab7c1551a00d26ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/swiftmailer-bundle/zipball/553d2474288349faed873da8ab7c1551a00d26ae",
+                "reference": "553d2474288349faed873da8ab7c1551a00d26ae",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1",
+                "swiftmailer/swiftmailer": "^6.1.3",
+                "symfony/config": "^4.3.8|^5.0",
+                "symfony/dependency-injection": "^4.3.8|^5.0",
+                "symfony/http-kernel": "^4.3.8|^5.0"
+            },
+            "conflict": {
+                "twig/twig": "<1.41|<2.10"
+            },
+            "require-dev": {
+                "symfony/console": "^4.3.8|^5.0",
+                "symfony/framework-bundle": "^4.3.8|^5.0",
+                "symfony/phpunit-bridge": "^4.3.8|^5.0",
+                "symfony/yaml": "^4.3.8|^5.0"
+            },
+            "suggest": {
+                "psr/log": "Allows logging"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Bundle\\SwiftmailerBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony SwiftmailerBundle",
+            "homepage": "http://symfony.com",
+            "time": "2019-11-14T16:18:31+00:00"
         },
         {
             "name": "symfony/translation-contracts",

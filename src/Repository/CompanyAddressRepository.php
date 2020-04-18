@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\BankAffiliate;
 use App\Entity\Company;
 use App\Entity\CompanyAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 
 class CompanyAddressRepository extends ServiceEntityRepository
 {
@@ -29,5 +31,26 @@ class CompanyAddressRepository extends ServiceEntityRepository
             ])
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param $companyId
+     * @param $id
+     * @return BankAffiliate|null
+     * @throws NonUniqueResultException
+     */
+    public function findOneByCompanyIdAndId($companyId, $id): ?CompanyAddress
+    {
+        return $this->createQueryBuilder('ca')
+            ->innerJoin('ca.company', 'c')
+            ->andWhere('c.id = :companyId')
+            ->andWhere('ca.id = :id')
+            ->setParameters([
+                'companyId' => $companyId,
+                'id' => $id,
+            ])
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 }

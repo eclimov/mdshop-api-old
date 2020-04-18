@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\CompanyAddressData;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -140,5 +141,17 @@ class CompanyAddress
     public function prePersist(): void
     {
         $this->createdAt = new DateTime();
+    }
+
+    /**
+     * @param CompanyAddressData $companyAddressData
+     * @return CompanyAddress
+     */
+    public function fill(CompanyAddressData $companyAddressData): CompanyAddress
+    {
+        return $this
+            ->setAddress($companyAddressData->address)
+            ->setJuridic($companyAddressData->isJuridic)
+            ;
     }
 }

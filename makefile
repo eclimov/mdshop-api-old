@@ -15,3 +15,6 @@ logs:
 
 mysql:
 	docker-compose exec mysql sh
+
+# https://github.com/doctrine/DoctrineFixturesBundle/issues/50#issuecomment-395918939
+# bin/console doctrine:schema:drop --force && bin/console doctrine:schema:update --force && bin/console doctrine:fixtures:load -n

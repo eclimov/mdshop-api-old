@@ -3,49 +3,42 @@
 namespace App\Model;
 
 use App\Entity\Company;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class CompanyData {
     /**
      * @var int
      * @Assert\NotBlank(groups={"get"})
-     * @Groups({"get"})
      */
     public int $id;
 
     /**
      * @var string
      * @Assert\NotBlank(groups={"create", "get"})
-     * @Groups({"create", "get"})
      */
     public string $name;
 
     /**
      * @var string
      * @Assert\NotBlank(groups={"create", "get"})
-     * @Groups({"create", "get"})
      */
     public string $shortName;
 
     /**
      * @var string
      * @Assert\NotBlank(groups={"create", "get"})
-     * @Groups({"create", "get"})
      */
     public string $iban;
 
     /**
      * @var string
      * @Assert\NotBlank(groups={"create", "get"})
-     * @Groups({"create", "get"})
      */
     public string $fiscalCode;
 
     /**
      * @var string
      * @Assert\NotBlank(groups={"create", "get"})
-     * @Groups({"create", "get"})
      */
     public string $vat;
 

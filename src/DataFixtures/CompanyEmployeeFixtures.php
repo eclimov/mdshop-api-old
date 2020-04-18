@@ -16,20 +16,16 @@ class CompanyEmployeeFixtures extends Fixture implements DependentFixtureInterfa
     public function load(ObjectManager $manager): void
     {
         $faker = Faker\Factory::create('en_US');
+        $employeePositions = CompanyEmployee::POSITIONS;
         for ($i = 0; $i < 20; $i++) {
-            $companyDirector = new CompanyEmployee();
-            $companyDirector->setName($faker->name);
-            $companyDirector->setPosition('Director');
-            $companyDirector->setCompany($this->getReference('company_' . $i));
-            $manager->persist($companyDirector);
-            $this->addReference('companyEmployee_' . $i . '1', $companyDirector);
-
-            $companyConsultant = new CompanyEmployee();
-            $companyConsultant->setName($faker->name);
-            $companyConsultant->setPosition('Consultant');
-            $companyConsultant->setCompany($this->getReference('company_' . $i));
-            $manager->persist($companyConsultant);
-            $this->addReference('companyEmployee_' . $i . '2', $companyConsultant);
+            foreach ($employeePositions as $j => $employeePosition) {
+                $companyEmployee = new CompanyEmployee();
+                $companyEmployee->setName($faker->name);
+                $companyEmployee->setPosition($employeePosition);
+                $companyEmployee->setCompany($this->getReference('company_' . $i));
+                $manager->persist($companyEmployee);
+                $this->addReference('companyEmployee_' . $i . $j, $companyEmployee);
+            }
         }
 
         $manager->flush();

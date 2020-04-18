@@ -3,21 +3,18 @@
 namespace App\Model;
 
 use App\Entity\BankAffiliate;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class BankAffiliateData {
     /**
      * @var int
      * @Assert\NotBlank(groups={"get"})
-     * @Groups({"get"})
      */
     public int $id;
 
     /**
      * @var string
      * @Assert\NotBlank(groups={"create", "get"})
-     * @Groups({"create", "get"})
      */
     public string $affiliateNumber;
 

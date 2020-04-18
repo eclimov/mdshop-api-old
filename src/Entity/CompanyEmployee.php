@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\CompanyEmployeeData;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -12,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CompanyEmployee
 {
+    public const POSITIONS = [
+        'Consultant',
+        'Director'
+    ];
+
     /**
      * @var int
      * @ORM\Id
@@ -135,5 +141,17 @@ class CompanyEmployee
     public function prePersist(): void
     {
         $this->createdAt = new \DateTime();
+    }
+
+    /**
+     * @param CompanyEmployeeData $companyEmployeeData
+     * @return CompanyEmployee
+     */
+    public function fill(CompanyEmployeeData $companyEmployeeData): CompanyEmployee
+    {
+        return $this
+            ->setName($companyEmployeeData->name)
+            ->setPosition($companyEmployeeData->position)
+            ;
     }
 }

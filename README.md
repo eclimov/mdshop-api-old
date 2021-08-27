@@ -1,3 +1,5 @@
+Deprecated in favor of [mdshop-api](https://github.com/eclimov/mdshop-api).
+
 Reference README: https://github.com/eclimov/mdshop
 
 JWT configuration:  
